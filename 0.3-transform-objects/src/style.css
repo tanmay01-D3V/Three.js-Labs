@@ -1,16 +1,19 @@
 * {
+    /* Remove browser defaults so the canvas can align exactly with the viewport. */
     margin: 0;
     padding: 0;
 }
 
 html,
 body {
+    /* Give the renderer a viewport-sized surface and prevent page scrollbars. */
     width: 100%;
     height: 100%;
     overflow: hidden;
 }
 
 .webgl {
+    /* Canvas is inline by default; block avoids the baseline gap below it. */
     display: block;
     width: 100%;
     height: 100%;

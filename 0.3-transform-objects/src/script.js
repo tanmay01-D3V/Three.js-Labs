@@ -16,13 +16,13 @@ const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
 /**
- * position and scale
+ * Position moves the object, scale changes its size, and both are local transforms.
  */
 mesh.position.set(0.7, -0.6, 1);
 mesh.scale.set(1, 1, 1);
 
 /**
- * rotation 
+ * Rotation values are radians; PI / 4 is a 45-degree turn.
  */
 mesh.rotation.set(Math.PI * 0.25, Math.PI * 0.25, 0);
 
@@ -35,7 +35,8 @@ const quaternionMesh = new THREE.Mesh(geometry, quaternionMaterial);
 quaternionMesh.position.set(-0.7, 0.6, 1);
 
 /**
- * Build a 45° rotation around the world Y axis
+ * A quaternion stores rotation without the axis-order ambiguity of Euler angles.
+ * Here it represents a 45-degree turn around the world Y axis.
  */
 
 const rotationAxis = new THREE.Vector3(0, 1, 0);
@@ -43,15 +44,15 @@ const quaternion = new THREE.Quaternion();
 quaternion.setFromAxisAngle(rotationAxis, Math.PI * 0.25);
 
 /**
- * Snapshot the rotation into the mesh's transform (value copy, not reference)
-
+ * Copy the quaternion value into the mesh; later edits to the source quaternion
+ * will not automatically change this mesh's rotation.
  */
 quaternionMesh.quaternion.copy(quaternion);
 
 scene.add(quaternionMesh);
 
 /**
- * axis helper
+ * AxesHelper colors X red, Y green, and Z blue to make orientation visible.
  */
 
 const axesHelper = new THREE.AxesHelper();
@@ -81,6 +82,7 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height);
 
 window.addEventListener("resize", () => {
+  // Keep the camera's projection matched to the new viewport aspect ratio.
   sizes.width = window.innerWidth;
   sizes.height = window.innerHeight;
 
