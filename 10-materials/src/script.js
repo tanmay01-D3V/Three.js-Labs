@@ -41,17 +41,9 @@ const doorRoughnessTexture    = textureLoader.load('/textures/door/roughness.jpg
  * ============================================================
  */
 
-// Show the cubemap as the scene backdrop
-scene.background = environmentMapTexture
-
-// (Already present) use it as image-based lighting
-scene.environment = environmentMapTexture
-
-// Optional: fine-tune reflection strength on our PBR material
-material.envMapIntensity = 1.0
-
-// Optional GUI control to compare effects live
-gui.add(material, 'envMapIntensity').min(0).max(3).step(0.01)
+// NOTE: `scene.background`, `scene.environment`, `material.envMapIntensity`
+// and the GUI control are applied further down, AFTER `scene`, `material`
+// and `gui` have been created (using them here threw a ReferenceError).
 
 // --- Matcap & gradient (loaded for learning, not used in final material) ---
 const matcapTexture   = textureLoader.load('/textures/matcaps/8.png')
@@ -87,6 +79,9 @@ const scene  = new THREE.Scene()
 // This line was MISSING in the original → metal looked flat/black.
 scene.environment = environmentMapTexture
 
+// Show the cubemap as the scene backdrop (visible skybox)
+scene.background = environmentMapTexture
+
 /**
  * ============================================================
  * LAB NOTES — MATERIALS (progression of what we tried)
@@ -119,6 +114,9 @@ material.metalnessMap = doorMetalnessTexture
 material.roughnessMap = doorRoughnessTexture
 material.normalMap    = doorNormalTexture
 
+// Reflection strength of the environment map on this PBR material
+material.envMapIntensity = 1.0
+
 // LAB NOTE / WARNING:
 // Using the COLOR map as `alphaMap` is unusual. An alpha map
 // should be a grayscale mask where white = opaque, black =
@@ -144,6 +142,9 @@ const gui = new GUI()
 gui.add(material, 'metalness').min(0).max(1).step(0.0001)
 gui.add(material, 'roughness').min(0).max(1).step(0.0001)
 gui.add(material, 'aoMapIntensity').min(0).max(10).step(0.0001)
+
+// Live comparison of environment reflection strength
+gui.add(material, 'envMapIntensity').min(0).max(3).step(0.01)
 
 /**
  * ============================================================
