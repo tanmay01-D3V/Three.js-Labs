@@ -76,7 +76,7 @@ window.requestAnimationFrame(() =>
 
 const rectAreaLightHelper = new RectAreaLightHelper(rectAreaLight)
 scene.add(rectAreaLightHelper)
-/**
+/**  
  * Objects
  */
 // Material
